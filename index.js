@@ -17,8 +17,10 @@ const connect =  async () => {
          console.log(error)
      }
 }
+
+
 app.use(cors({
-    origin: 'http://localhost:5173', // Allow requests from localhost:5173
+    origin: 'https://nakuipid.onrender.com', // Allow requests from localhost:5173
     credentials: true, // Allow credentials (cookies)
   }));
   
