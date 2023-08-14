@@ -1,0 +1,7 @@
+services:
+  - name: web
+    buildCommand: yarn
+    buildDirectory: /
+    startCommand: yarn start
+    env:
+      NODE_VERSION: 14.20.1
