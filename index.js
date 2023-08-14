@@ -20,9 +20,10 @@ const connect =  async () => {
 
 
 app.use(cors({
-    origin: 'https://nakuipid.onrender.com', // Allow requests from localhost:5173
-    credentials: true, // Allow credentials (cookies)
+    origin: true,
+    credentials: true,
   }));
+  
   
 // Use the user router
 app.use(express.json())
