@@ -12,7 +12,7 @@ export const createProduct = async (req, res, next) => {
       userId: req.userId,
       ...req.body,
     });
-
+console.log(newProduct)
     const savedProduct = await newProduct.save();
     res.status(201).json(savedProduct);
   } catch (error) {
