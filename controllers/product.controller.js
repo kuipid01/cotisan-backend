@@ -42,28 +42,50 @@ export const getProduct = async (req, res, next) => {
 };
 export const getProducts = async (req, res, next) => {
   const q = req.query;
-  const filters = {
-    ...(q.category && { category: { $regex: q.category, $options: "i" } }),
-    ...(q.featured === "true" && { featured: true }),
-    ...(q.featured === "false" && { featured: false }),
+  const filters = {};
 
-    ...(q.userId && { userId: q.userId }),
-    ...((q.min || q.max) && {
-      price: {
-        ...(q.min && { $gt: q.min }),
-        ...(q.max && { $lt: q.max }),
-      },
-    }),
-    ...(q.search && {
-      title: { $regex: q.search, $options: "i" },
-    }),
-  };
+  if (q.category) {
+    filters.category = { $regex: q.category, $options: "i" };
+  }
+
+  if (q.featured === "true" || q.featured === "false") {
+    filters.featured = q.featured === "true";
+  }
+
+  if (q.userId) {
+    filters.userId = q.userId;
+  }
+
+  if (q.min || q.max) {
+    filters.price = {};
+    if (q.min) {
+      filters.price.$gt = q.min;
+    }
+    if (q.max) {
+      filters.price.$lt = q.max;
+    }
+  }
+
+  if (q.search) {
+    filters.title = { $regex: q.search, $options: "i" };
+  }
+
+  // Sort based on the provided 'sort' query parameter
+  let sortQuery = {};
+  if (q.sort === 'latest') {
+    sortQuery = { createdAt: -1 }; // Sort by creation date in descending order
+  } else if (q.sort === 'highestRated') {
+    sortQuery = { averageRating: -1 }; // Sort by averageRating in descending order
+  }
 
   try {
-    const products = await Product.find(filters).sort({ [q.sort]: -1 });
+    const products = await Product.find(filters).sort(sortQuery);
     res.status(200).send(products);
   } catch (error) {
     // Handle error here
+    console.error("Error:", error);
     res.status(500).send("An error occurred");
   }
 };
+
+

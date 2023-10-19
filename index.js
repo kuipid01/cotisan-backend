@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import userRouter from './routes/user.route.js'
 import authRouter from './routes/auth.route.js'
 import productRouter from './routes/product.route.js'
+import reviewRouter from './routes/review.route.js'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 const app = express()
@@ -34,6 +35,7 @@ app.use(cookieParser())
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/products', productRouter);
+app.use('/api/reviews', reviewRouter);
 app.use((err,req,res,next) => {
 const errorStatus = err.status || 500
 const errorMessage = err.message || 'something went wrong'

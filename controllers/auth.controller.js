@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import createError from "../utils/createError.js";
 export const login = async (req, res, next) => {
   try {
-    const user = await User.findOne({ username: req.body.username });
+    const user = await User.findOne({ email: req.body.mail });
 
     if (!user) return next(createError(404, "User not found"));
 
@@ -23,6 +23,7 @@ export const login = async (req, res, next) => {
 
     const { password, ...info } = user._doc;
     res.cookie("acessToken", token, {
+       sameSite: 'None',
         httpOnly: true,
       })
       .status(200)
