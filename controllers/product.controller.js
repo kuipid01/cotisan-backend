@@ -21,11 +21,11 @@ export const createProduct = async (req, res, next) => {
 export const deleteProduct = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id);
-    console.log('we here',product.userId,req.userId)
-    if (product.userId !== req.userId)
-      return next(
-        createError(403, "You can only deleteproduct created by you")
-      );
+    // console.log('we here',product.userId,req.userId)
+    // if (product.userId !== req.userId)
+    //   return next(
+    //     createError(403, "You can only deleteproduct created by you")
+    //   );
 
     await Product.findByIdAndDelete(req.params.id);
     res.status(201).send("product deleted succesfully");
