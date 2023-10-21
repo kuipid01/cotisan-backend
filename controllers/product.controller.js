@@ -10,7 +10,7 @@ export const createProduct = async (req, res, next) => {
       userId: req.userId,
       ...req.body,
     });
-    console.log(req.username, req.userId);
+    // console.log(req.username, req.userId);
     const savedProduct = await newProduct.save();
     res.status(201).json(savedProduct);
   } catch (error) {
