@@ -10,28 +10,29 @@ export const login = async (req, res, next) => {
 
     const isCorrect = bcrypt.compareSync(req.body.password, user.password);
     if (!isCorrect)
-      return next(createError(400, 'wrong password or username"'));
+      return next(createError(400, 'Wrong password or username'));
 
     const token = jwt.sign(
       {
         id: user._id,
         isSeller: user.isSeller,
-        username:user.username
+        username: user.username,
       },
       process.env.JWT_KEY
     );
 
     const { password, ...info } = user._doc;
-    res.cookie("acessToken", token, {
-       sameSite: 'None',
-        httpOnly: true,
-      })
-      .status(200)
-      .send(info);
+    res.cookie("accessToken", token, {
+      sameSite: 'None',
+      httpOnly: true,
+      domain: 'ecommerce-local-artisan.vercel.app',
+      secure: true, // Add this line for HTTPS
+    }).status(200).send(info);
   } catch (error) {
-    next(err);
+    next(error); // Corrected this line
   }
 };
+
 export const register = async (req, res, next) => {
   try {
     const hashedPassword = bcrypt.hashSync(req.body.password, 5);
@@ -49,6 +50,7 @@ export const logout = async (req, res) => {
     .clearCookie("acessToken", {
       sameSite: "none",
       secure: true,
+      
     })
     .status(200)
     .send("user has been logged out ");
