@@ -3,9 +3,7 @@ import createError from "../utils/createError.js";
 
 export const createProduct = async (req, res, next) => {
   try {
-    if (!req.isSeller) {
-      throw createError(403, "Only sellers can create a product");
-    }
+    
 
     const newProduct = new Product({
       username: req.username,
