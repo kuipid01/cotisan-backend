@@ -25,7 +25,7 @@ export const login = async (req, res, next) => {
     res.cookie("accessToken", token, {
       sameSite: 'None',
       httpOnly: true,
-      domain: 'ecommerce-local-artisan.vercel.app',
+      domain: 'https://ecommerce-local-artisan.vercel.app',
       secure: true, // Add this line for HTTPS
     }).status(200).send(info);
   } catch (error) {
