@@ -12,7 +12,7 @@ export const createProduct = async (req, res, next) => {
       userId: req.userId,
       ...req.body,
     });
-console.log(req.username,req.userId)
+    console.log(req.username, req.userId);
     const savedProduct = await newProduct.save();
     res.status(201).json(savedProduct);
   } catch (error) {
@@ -23,10 +23,12 @@ console.log(req.username,req.userId)
 export const deleteProduct = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id);
+    console.log('we here',product.userId,req.userId)
     if (product.userId !== req.userId)
       return next(
         createError(403, "You can only deleteproduct created by you")
       );
+
     await Product.findByIdAndDelete(req.params.id);
     res.status(201).send("product deleted succesfully");
   } catch (error) {}
@@ -72,9 +74,9 @@ export const getProducts = async (req, res, next) => {
 
   // Sort based on the provided 'sort' query parameter
   let sortQuery = {};
-  if (q.sort === 'latest') {
+  if (q.sort === "latest") {
     sortQuery = { createdAt: -1 }; // Sort by creation date in descending order
-  } else if (q.sort === 'highestRated') {
+  } else if (q.sort === "highestRated") {
     sortQuery = { averageRating: -1 }; // Sort by averageRating in descending order
   }
 
@@ -87,5 +89,3 @@ export const getProducts = async (req, res, next) => {
     res.status(500).send("An error occurred");
   }
 };
-
-
